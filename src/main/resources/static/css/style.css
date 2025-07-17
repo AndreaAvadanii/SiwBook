@@ -1,0 +1,327 @@
+/* 2) RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: 'Montserrat', sans-serif;
+  color: #A45848;
+  background: #EFECE8;
+  line-height: 1.6;
+}
+
+/* 3) CONTAINER */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 4) NAVBAR */
+.navbar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 10;
+  background: transparent;
+  padding: 1rem 0;
+  transition: background 0.3s ease;
+}
+.navbar.scrolled {
+  background: rgba(17, 17, 17, 0.9);
+}
+.navbar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  color: #A45848;
+  font-size: 1.75rem;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+.nav-links a {
+  margin-left: 2rem;
+  font-weight: 600;
+  color: #A45848;
+  text-decoration: none;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #F2E4C8;
+  transition: width 0.3s;
+  position: absolute;
+  bottom: -4px; left: 0;
+}
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* 5) HERO */
+.hero {
+  position: relative;
+  height: 80vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero .overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+}
+.hero-text {
+  position: relative;
+  text-align: center;
+  max-width: 600px;
+}
+.hero-text h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #F2E4C8;
+}
+.hero-text p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #F2E4C8;
+}
+.btn {
+  display: inline-block;
+  background: transparent;
+  border: 2px solid #A45848;
+  color: #A45848;
+  padding: 0.75rem 2rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: background 0.3s, color 0.3s;
+  text-decoration: none;
+}
+.btn:hover {
+  background: #A45848;
+  color: #F2E4C8;
+}
+
+/* 6) FEATURED GRID */
+.featured {
+  padding: 4rem 0;
+}
+.featured h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: #A45848;
+  text-align: center;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+}
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+.book-card {
+  background: #EADED2;
+  border: 0.5px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.book-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px #A45848;
+}
+.card-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.card-info {
+  padding: 1rem;
+}
+.card-info h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: #A45848;
+  margin-bottom: 0.5rem;
+}
+.card-info .year {
+  font-size: 0.9rem;
+  color: #A45848;
+}
+.book-card a {
+  text-decoration: none;
+}
+
+.book-card a h3,
+.book-card a .year,
+.book-card a span {
+  text-decoration: none;
+}
+
+/* 7) FOOTER */
+.footer {
+	background: #EADED2;
+	padding: 2rem 0;
+	border-top: 2px solid black;
+}
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.footer-links {
+  margin-bottom: 1rem;
+}
+.footer-links a {
+  margin: 0 1rem;
+  color: #A45848;
+  font-weight: 400;
+  text-decoration: none;
+}
+.footer-links a:hover {
+  text-decoration: underline;
+}
+.footer p {
+  font-size: 0.9rem;
+  color: #A45848;
+}
+/* BOOK DETAIL */
+.book-detail {
+  padding: 4rem 0;
+}
+.detail-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+.detail-image img {
+  max-width: 300px;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px #A45848;
+}
+.detail-info {
+  flex: 1;
+}
+.detail-info h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: #A45848;
+  margin-bottom: 0.5rem;
+}
+.detail-info .year,
+.detail-info .authors {
+  color: #A45848;
+  margin-bottom: 1rem;
+}
+.reviews {
+  margin-top: 2rem;
+}
+.reviews h2 {
+  font-family: 'Playfair Display', serif;
+  color: #A45848;
+  margin-bottom: 1rem;
+}
+.review-card {
+  background: #A45848;
+  border: 1px solid #A45848;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.review-user {
+  font-weight: 600;
+  color: #A45848;
+}
+.review-rating {
+  color: #A45848;
+}
+.review-title {
+  font-size: 1.1rem;
+  color: #A45848;
+  margin-bottom: 0.5rem;
+}
+.review-text {
+  color: #A45848;
+  line-height: 1.5;
+}
+/*CAROSELLO*/
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  gap: 5rem;
+  padding: 1rem 0;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.book-card.cover-only {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+  width: 160px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: none;
+  border: none;
+}
+
+.book-card.cover-only img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: transform 0.3s;
+}
+
+.book-card.cover-only img:hover {
+  transform: scale(1.05);
+}
+
+.carousel-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(234, 222, 210, 0.8);
+  border-radius: 50%;
+  padding: 0.5rem;
+  text-decoration: none;
+  color: #A45848;
+  font-size: 1.5rem;
+  z-index: 10;
+}
+
+.prev {
+  left: -2rem;
+}
+
+.next {
+  right: -2rem;
+}
+

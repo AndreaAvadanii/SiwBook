@@ -17,4 +17,6 @@ public interface CredentialsRepository extends CrudRepository<Credentials, Long>
     Optional<Credentials> findByUsername(String username);
 
     List<Credentials> findByRole(String role);
+
+	boolean existsByUsername(String username);
 }

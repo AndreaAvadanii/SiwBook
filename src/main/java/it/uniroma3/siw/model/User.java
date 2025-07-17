@@ -35,8 +35,8 @@ public class User {
 
 	private String urlImage;
 	
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();
+	@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
+	private List<Review> reviews;
 
 	public Long getId() {
 		return id;
@@ -93,5 +93,14 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+	
 
 }

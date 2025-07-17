@@ -1,17 +1,17 @@
 package it.uniroma3.siw.model;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
+@Entity
 public class Book {
 	
 	@Id
@@ -27,56 +27,51 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
 
-    public Book() {}
+	public Long getId() {
+		return id;
+	}
 
-    public Book(String title, Integer year, String urlImage) {
-        this.title = title;
-        this.year = year;
-        this.urlImage = urlImage;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public Integer getYear() {
-        return year;
-    }
+	public Integer getYear() {
+		return year;
+	}
 
-    public String getUrlImage() {
-        return urlImage;
-    }
+	public void setYear(Integer year) {
+		this.year = year;
+	}
 
-    public Set<Author> getAuthors() {
-        return authors;
-    }
+	public String getUrlImage() {
+		return urlImage;
+	}
 
-    public List<Review> getReviews() {
-        return reviews;
-    }
+	public void setUrlImage(String urlImage) {
+		this.urlImage = urlImage;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public Set<Author> getAuthors() {
+		return authors;
+	}
 
-    public void setYear(Integer year) {
-        this.year = year;
-    }
+	public void setAuthors(Set<Author> authors) {
+		this.authors = authors;
+	}
 
-    public void setUrlImage(String urlImage) {
-        this.urlImage = urlImage;
-    }
+	public List<Review> getReviews() {
+		return reviews;
+	}
 
-    public void setAuthors(Set<Author> authors) {
-        this.authors = authors;
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
-
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
 }

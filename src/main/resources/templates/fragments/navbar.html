@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+<div th:fragment="navbar">
+  <header class="navbar">
+    <div class="container navbar-content">
+      <a class="logo" th:href="@{/}">SIW Book</a>
+      <nav class="nav-links">
+        <a th:href="@{/books}">Libri</a>
+        <a th:href="@{/authors}">Autori</a>
+        
+        <!-- mostra “Login” solo se non autenticato -->
+        <a sec:authorize="!isAuthenticated()" th:href="@{/login}">Login</a>
+        
+        <!-- mostra “Logout” solo se autenticato -->
+        <a sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a>
+      </nav>
+    </div>
+  </header>
+</div>
+</html>

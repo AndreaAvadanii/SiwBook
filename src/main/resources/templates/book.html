@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="'SIW Book – ' + ${book.title}">SIW Book – Dettaglio</title>
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <div th:insert="fragments/navbar :: navbar"></div>
+  
+  <!-- BOOK DETAIL -->
+  <section class="book-detail container">
+    <div class="detail-header">
+      <div class="detail-image">
+        <img th:src="@{${book.urlImage}}" th:alt="'Copertina di ' + ${book.title}">
+      </div>
+      <div class="detail-info">
+        <h1 th:text="${book.title}">Titolo Libro</h1>
+        <p class="year" th:text="'Anno: ' + ${book.year}">Anno</p>
+		<p class="authors">
+		  <strong>Autori:</strong>
+		  <span th:each="author, iterStat : ${book.authors}">
+		    <a th:href="@{/author/{id}(id=${author.id})}"
+		       th:text="${author.name + ' ' + author.surname}">Nome Cognome</a>
+		    <span th:if="${!iterStat.last}">, </span>
+		  </span>
+		</p>
+        <a class="btn" th:href="@{/book/{id}/formNewReview(id=${book.id})}">Aggiungi Recensione</a>
+      </div>
+    </div>
+
+    <div class="reviews">
+      <h2>Recensioni</h2>
+      <div th:if="${#lists.isEmpty(book.reviews)}">
+        <p>Ancora nessuna recensione per questo libro.</p>
+      </div>
+      <div class="review-card" th:each="rev : ${book.reviews}">
+        <div class="review-header">
+          <span class="review-user" th:text="${rev.user.name + ' ' + rev.user.surname}">Utente</span>
+          <span class="review-rating" th:text="'Voto: ' + ${rev.rating} + '/5'">Voto</span>
+        </div>
+        <h3 class="review-title" th:text="${rev.title}">Titolo Recensione</h3>
+        <p class="review-text" th:text="${rev.text}">Testo recensione...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-links">
+        <a th:href="@{/books}">Libri</a>
+        <a th:href="@{/authors}">Autori</a>
+        <a th:href="@{/login}">Login</a>
+      </div>
+      <p>© 2025 SIW Book – Tutti i diritti riservati</p>
+    </div>
+  </footer>
+
+</body>
+</html>

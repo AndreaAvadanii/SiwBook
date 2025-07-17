@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registrazione - SIW Book</title>
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar-content">
+      <a class="logo" th:href="@{/}">SIW Book</a>
+      <nav class="nav-links">
+        <a th:href="@{/books}">Libri</a>
+        <a th:href="@{/authors}">Autori</a>
+        <a th:href="@{/login}">Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="container" style="padding:6rem 0;">
+    <form th:action="@{/register}" method="post">
+      <h2>Registrazione</h2>
+      <div>
+        <label for="name">Nome</label>
+        <input id="name" name="name" type="text" required>
+      </div>
+      <div style="margin-top:1rem;">
+        <label for="surname">Cognome</label>
+        <input id="surname" name="surname" type="text" required>
+      </div>
+      <div style="margin-top:1rem;">
+        <label for="birthdate">Data di nascita</label>
+        <input id="birthdate" name="birthdate" type="date" required>
+      </div>
+      <div style="margin-top:1rem;">
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" required>
+      </div>
+      <div style="margin-top:1rem;">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required>
+      </div>
+      <button type="submit" class="btn" style="margin-top:2rem;">Registrati</button>
+    </form>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-links">
+        <a th:href="@{/books}">Libri</a>
+        <a th:href="@{/authors}">Autori</a>
+        <a th:href="@{/login}">Login</a>
+      </div>
+      <p>© 2025 SIW Book – Tutti i diritti riservati</p>
+    </div>
+  </footer>
+</body>
+</html>

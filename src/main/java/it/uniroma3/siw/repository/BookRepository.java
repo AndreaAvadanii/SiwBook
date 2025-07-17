@@ -16,4 +16,6 @@ public interface BookRepository extends CrudRepository<Book, Long> {
     List<Book> findByTitleContainingIgnoreCase(String title);
 
     List<Book> findByAuthorsId(Long authorId);
+
+	boolean existsByTitleAndYear(String title, Integer year);
 }

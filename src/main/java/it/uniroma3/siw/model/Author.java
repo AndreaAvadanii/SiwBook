@@ -31,74 +31,67 @@ public class Author {
     @ManyToMany(mappedBy = "authors")
     private Set<Book> books;
 
-    public Author() {}
+	public Long getId() {
+		return id;
+	}
 
-    public Author(String name, String surname, LocalDate birthdate, LocalDate deathdate, String nationality, String urlImage) {
-        this.name = name;
-        this.surname = surname;
-        this.birthdate = birthdate;
-        this.deathdate = deathdate;
-        this.nationality = nationality;
-        this.urlImage = urlImage;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getSurname() {
-        return surname;
-    }
+	public String getSurname() {
+		return surname;
+	}
 
-    public LocalDate getBirthdate() {
-        return birthdate;
-    }
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
 
-    public LocalDate getDeathdate() {
-        return deathdate;
-    }
+	public LocalDate getBirthdate() {
+		return birthdate;
+	}
 
-    public String getNationality() {
-        return nationality;
-    }
+	public void setBirthdate(LocalDate birthdate) {
+		this.birthdate = birthdate;
+	}
 
-    public String getUrlImage() {
-        return urlImage;
-    }
+	public LocalDate getDeathdate() {
+		return deathdate;
+	}
 
-    public Set<Book> getBooks() {
-        return books;
-    }
+	public void setDeathdate(LocalDate deathdate) {
+		this.deathdate = deathdate;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getNationality() {
+		return nationality;
+	}
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
+	}
 
-    public void setBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
-    }
+	public String getUrlImage() {
+		return urlImage;
+	}
 
-    public void setDeathdate(LocalDate deathdate) {
-        this.deathdate = deathdate;
-    }
+	public void setUrlImage(String urlImage) {
+		this.urlImage = urlImage;
+	}
 
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
-    }
+	public Set<Book> getBooks() {
+		return books;
+	}
 
-    public void setUrlImage(String urlImage) {
-        this.urlImage = urlImage;
-    }
-
-    public void setBooks(Set<Book> books) {
-        this.books = books;
-    }
+	public void setBooks(Set<Book> books) {
+		this.books = books;
+	}
 }

@@ -11,7 +11,7 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class Credentials {
 
-	public static final String AGENT_ROLE = "USER";
+	public static final String USER_ROLE = "USER";
 	public static final String ADMIN_ROLE = "ADMIN";
 
 	@Id

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SIW Book – Autori</title>
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <div th:insert="fragments/navbar :: navbar"></div>
+
+  <!-- AUTHORS GRID -->
+  <section class="featured container">
+    <h2>Scopri gli Autori</h2>
+    <div class="book-grid"> <!-- riuso book-grid/style per la griglia -->
+      <div class="book-card" th:each="author : ${authors}">
+        <a th:href="@{/author/{id}(id=${author.id})}">
+          <div class="card-image">
+            <img th:src="@{${author.urlImage}}" 
+                 th:alt="'Ritratto di ' + ${author.name} + ' ' + ${author.surname}">
+          </div>
+          <div class="card-info">
+            <h3 th:text="${author.name + ' ' + author.surname}">Nome Cognome</h3>
+            <span class="year" th:text="${author.nationality}">Nazionalità</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-links">
+        <a th:href="@{/books}">Libri</a>
+        <a th:href="@{/authors}">Autori</a>
+        <a th:href="@{/login}">Login</a>
+      </div>
+      <p>© 2025 SIW Book – Tutti i diritti riservati</p>
+    </div>
+  </footer>
+
+</body>
+</html>
