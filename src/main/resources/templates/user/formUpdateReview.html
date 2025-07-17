@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SIW Book – Modifica Recensione</title>
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <div th:insert="fragments/navbar :: navbar"></div>
+
+  <!-- FORM DI MODIFICA RECENSIONE -->
+  <section class="book-detail container" style="padding-top: 6rem;">
+    <div class="detail-header">
+      <div class="detail-info" style="width: 100%;">
+        <h1>Modifica la tua recensione</h1>
+        <div class="review-card" style="padding: 2rem; margin-top: 2rem;">
+          <form th:action="@{/book/{bookId}/review/{reviewId}/update(bookId=${book.id},reviewId=${review.id})}"
+                th:object="${review}"
+                method="post">
+            <div style="margin-bottom: 1.5rem;">
+              <label for="title">Titolo</label>
+              <input type="text" id="title" th:field="*{title}" />
+              <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+              <label for="rating">Voto</label>
+              <select id="rating" th:field="*{rating}">
+                <option th:each="i : ${#numbers.sequence(1,5)}"
+                        th:value="${i}" th:text="${i}"></option>
+              </select>
+              <div th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}"></div>
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+              <label for="text">Testo</label>
+              <textarea id="text" th:field="*{text}"></textarea>
+              <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></div>
+            </div>
+            <button type="submit" class="btn">Salva</button>
+            <button th:href="@{/book/{bookId}(bookId=${book.id})}" class="btn">Annulla</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-links">
+        <a th:href="@{/books}">Libri</a>
+        <a th:href="@{/authors}">Autori</a>
+        <a th:href="@{/login}">Login</a>
+      </div>
+      <p>© 2025 SIW Book – Tutti i diritti riservati</p>
+    </div>
+  </footer>
+
+</body>
+</html>

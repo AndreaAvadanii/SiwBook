@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Le Mie Recensioni – SIW Book</title>
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <div th:insert="fragments/navbar :: navbar"></div>
+
+  <!-- LE MIE RECENSIONI -->
+  <section class="book-detail container" style="padding:6rem 0;">
+    <sec:authorize access="isAuthenticated()">
+      <h2>Le tue recensioni</h2>
+
+      <!-- Nessuna recensione -->
+      <div th:if="${#lists.isEmpty(reviews)}" style="margin-top:1rem;">
+        <p>Non hai ancora scritto recensioni.</p>
+      </div>
+
+      <!-- Elenco recensioni -->
+      <div th:each="rev : ${reviews}" class="review-card" style="margin-top:2rem;">
+		<!-- Riferimento al libro -->
+		<p>
+		  <strong>Libro:</strong>
+		  <a th:href="@{/book/{id}(id=${rev.book.id})}"
+		     th:text="${rev.book.title}">Titolo Libro</a>
+		</p>
+        <!-- Header recensione: utente e voto -->
+        <div class="review-header" style="justify-content: space-between;">
+          <span class="review-user" th:text="${rev.user.name + ' ' + rev.user.surname}">Utente</span>
+          <span class="review-rating" th:text="'Voto: ' + ${rev.rating} + '/5'">Voto</span>
+        </div>
+
+        <!-- Titolo -->
+        <h3 class="review-title" th:text="${rev.title}">Titolo recensione</h3>
+
+        <!-- Testo recensione -->
+        <p class="review-text" th:text="${rev.text}">Testo della recensione...</p>
+
+        <!-- Azioni -->
+        <div class="review-actions" style="margin-top:1.5rem; display:flex; gap:1rem;">
+          <!-- Modifica -->
+          <a class="btn"
+             th:href="@{/book/{bookId}/formUpdateReview/{reviewId}
+                          (bookId=${rev.book.id}, reviewId=${rev.id})}">
+            Modifica
+          </a>
+        </div>
+      </div>
+    </sec:authorize>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-links">
+        <a th:href="@{/books}">Libri</a>
+        <a th:href="@{/authors}">Autori</a>
+        <sec:authorize access="isAnonymous()">
+          <a th:href="@{/login}">Login</a>
+        </sec:authorize>
+        <sec:authorize access="isAuthenticated()">
+          <a th:href="@{/logout}">Logout</a>
+        </sec:authorize>
+      </div>
+      <p>© 2025 SIW Book – Tutti i diritti riservati</p>
+    </div>
+  </footer>
+
+</body>
+</html>

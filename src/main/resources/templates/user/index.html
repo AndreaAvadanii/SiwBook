@@ -27,7 +27,8 @@
       <h1>Benvenuto, <span th:text="${user.name}">Utente</span>!</h1>
       <p>Scopri nuovi titoli, leggi le recensioni e condividi i tuoi pareri.</p>
       <a class="btn" th:href="@{/books}">Esplora Libri</a>
-      <a class="btn" th:href="@{/reviews/mine}">Le mie recensioni</a>
+      <!-- qui con slash iniziale -->
+      <a class="btn" th:href="@{/user/reviews}">Le mie recensioni</a>
     </div>
   </section>
 
@@ -35,9 +36,7 @@
   <section class="featured container">
     <h2>Libri in evidenza</h2>
     <div class="carousel-container">
-
       <a href="#s0" class="arrow prev">&#10094;</a>
-
       <div class="carousel">
         <div th:each="book, stat : ${books}"
              th:id="'s' + ${stat.index}"
@@ -50,13 +49,11 @@
           </a>
         </div>
       </div>
-
       <a th:href="'#s' + ${lastIndex}" class="arrow next">&#10095;</a>
-
     </div>
   </section>
 
-  <!-- USER REVIEWS -->
+  <!-- USER REVIEWS (anteprima) -->
   <section class="reviews container">
     <h2>Le tue recensioni</h2>
     <div th:if="${reviews.empty}">
@@ -71,6 +68,12 @@
       </div>
       <h3 class="review-title" th:text="${review.title}">Titolo Recensione</h3>
       <p class="review-text" th:text="${review.text}">Testo della recensione…</p>
+      <div style="margin-top:1rem;">
+		<a th:href="@{/book/{bookId}/formUpdateReview/{reviewId}
+		               (bookId=${review.book.id},reviewId=${review.id})}">
+		    Modifica
+		</a>
+      </div>
     </div>
   </section>
 

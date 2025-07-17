@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,19 +21,24 @@
       <div class="detail-info">
         <h1 th:text="${book.title}">Titolo Libro</h1>
         <p class="year" th:text="'Anno: ' + ${book.year}">Anno</p>
-		<p class="authors">
-		  <strong>Autori:</strong>
-		  <span th:each="author, iterStat : ${book.authors}">
-		    <a th:href="@{/author/{id}(id=${author.id})}"
-		       th:text="${author.name + ' ' + author.surname}">Nome Cognome</a>
-		    <span th:if="${!iterStat.last}">, </span>
-		  </span>
-		</p>
-        <a class="btn" th:href="@{/book/{id}/formNewReview(id=${book.id})}">Aggiungi Recensione</a>
+        <p class="authors">
+          <strong>Autori:</strong>
+          <span th:each="author, iterStat : ${book.authors}">
+            <a th:href="@{/author/{id}(id=${author.id})}"
+               th:text="${author.name + ' ' + author.surname}">Nome Cognome</a>
+            <span th:if="${!iterStat.last}">, </span>
+          </span>
+        </p>
+        <sec:authorize access="isAuthenticated()">
+          <a class="btn"
+             th:href="@{/book/{id}/formNewReview(id=${book.id})}">
+            Aggiungi Recensione
+          </a>
+        </sec:authorize>
       </div>
     </div>
 
-    <div class="reviews">
+    <div class="reviews" style="margin-top:4rem;">
       <h2>Recensioni</h2>
       <div th:if="${#lists.isEmpty(book.reviews)}">
         <p>Ancora nessuna recensione per questo libro.</p>

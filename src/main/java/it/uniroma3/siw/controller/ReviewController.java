@@ -7,17 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 import it.uniroma3.siw.model.Review;
-import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.model.User;
-import it.uniroma3.siw.service.ReviewService;
 import it.uniroma3.siw.service.BookService;
-import it.uniroma3.siw.service.UserService;
 import it.uniroma3.siw.service.CredentialsService;
+import it.uniroma3.siw.service.ReviewService;
 
 @Controller
 public class ReviewController {
@@ -29,21 +26,33 @@ public class ReviewController {
     private BookService bookService;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private CredentialsService credentialsService;
 
-    // UC3: Form nuova recensione
     @GetMapping("/book/{bookId}/formNewReview")
-    public String formNewReview(@PathVariable Long bookId,
-                                Model model) {
+    public String formNewReview(@PathVariable Long bookId, Model model) {
         model.addAttribute("review", new Review());
         model.addAttribute("book", bookService.findById(bookId));
-        return "formNewReview.html";
+        return "user/formNewReview";
     }
 
-    // UC3: Salva recensione
+    @GetMapping("/book/{bookId}/formUpdateReview/{reviewId}")
+    public String formUpdateReview(@PathVariable Long bookId,
+                                   @PathVariable Long reviewId,
+                                   Principal principal,
+                                   Model model) {
+        Review review = reviewService.findById(reviewId);
+        Long authenticatedUserId = credentialsService
+            .findByUsername(principal.getName())
+            .getUser()
+            .getId();
+        if (!review.getUser().getId().equals(authenticatedUserId)) {
+            return "redirect:/access-denied";
+        }
+        model.addAttribute("review", review);
+        model.addAttribute("book", bookService.findById(bookId));
+        return "user/formUpdateReview";
+    }
+
     @PostMapping("/book/{bookId}/review")
     public String newReview(@PathVariable Long bookId,
                             @Valid @ModelAttribute Review review,
@@ -52,28 +61,55 @@ public class ReviewController {
                             Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("book", bookService.findById(bookId));
-            return "formNewReview.html";
+            return "user/formNewReview";
         }
-        String username = principal.getName();
-        User user = credentialsService.findByUsername(username).getUser();
+        User user = credentialsService
+            .findByUsername(principal.getName())
+            .getUser();
         reviewService.save(bookId, user.getId(), review);
         return "redirect:/book/" + bookId;
     }
 
-    // UC3: Admin elimina recensione
+    @PostMapping("/book/{bookId}/review/{reviewId}/update")
+    public String updateReview(@PathVariable Long bookId,
+                               @PathVariable Long reviewId,
+                               @Valid @ModelAttribute Review review,
+                               BindingResult bindingResult,
+                               Principal principal,
+                               Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("book", bookService.findById(bookId));
+            return "user/formUpdateReview";
+        }
+        Review existing = reviewService.findById(reviewId);
+        Long authenticatedUserId = credentialsService
+            .findByUsername(principal.getName())
+            .getUser()
+            .getId();
+        if (!existing.getUser().getId().equals(authenticatedUserId)) {
+            return "redirect:/access-denied";
+        }
+        existing.setTitle(review.getTitle());
+        existing.setRating(review.getRating());
+        existing.setText(review.getText());
+        reviewService.save(bookId, authenticatedUserId, existing);
+        return "redirect:/book/" + bookId;
+    }
+
     @GetMapping("/admin/removeReview/{id}")
     public String removeReview(@PathVariable Long id) {
         reviewService.deleteById(id);
         return "redirect:/admin/manageBooks";
     }
 
-    // UC7: Visualizza proprie recensioni
     @GetMapping("/user/reviews")
     public String myReviews(Principal principal, Model model) {
-        String username = principal.getName();
-        User user = credentialsService.findByUsername(username).getUser();
-        List<Review> reviews = reviewService.findByUser(user.getId());
+        Long authenticatedUserId = credentialsService
+            .findByUsername(principal.getName())
+            .getUser()
+            .getId();
+        List<Review> reviews = reviewService.findByUser(authenticatedUserId);
         model.addAttribute("reviews", reviews);
-        return "myReviews.html";
+        return "user/reviews";
     }
 }
