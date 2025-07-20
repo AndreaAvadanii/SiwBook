@@ -8,40 +8,38 @@
 </head>
 <body>
 
-  <!-- NAVBAR -->
   <div th:insert="fragments/navbar :: navbar"></div>
 
-
-  <!-- BOOKS LIST -->
   <section class="featured container">
     <h2>Tutti i Libri</h2>
     <div class="book-grid">
-      <div class="book-card" th:each="book : ${books}">
+      <div th:each="book, iterStat : ${books}"
+           class="book-card"
+           th:classappend="${iterStat.index == 0} ? ' cover-only' : ''">
         <a th:href="@{/book/{id}(id=${book.id})}">
           <div class="card-image">
-            <img th:src="@{${book.urlImage}}" th:alt="'Copertina di ' + ${book.title}">
+            <img th:if="${#lists.isEmpty(book.urlImages)}"
+                 th:src="@{/images/default.jpg}"
+                 th:alt="|Copertina di ${book.title}|"/>
+            <img th:if="${!#lists.isEmpty(book.urlImages)}"
+                 th:src="@{/images/{file}(file=${book.urlImages[0]})}"
+                 th:alt="|Copertina di ${book.title}|"/>
           </div>
-		  <div class="card-info">
-		    <h3 th:text="${book.title}">Titolo</h3>
-		    <span class="year" th:text="${book.year}">Anno</span>
-		    <div class="year" th:each="author : ${book.authors}">
-		      <span th:text="${author.name + ' ' + author.surname}">Autore</span>
-		    </div>
-		  </div>
-
+          <div class="card-info">
+            <h3 th:text="${book.title}">Titolo</h3>
+            <span class="year" th:text="${book.year}">Anno</span>
+            <div class="year" th:each="author : ${book.authors}">
+              <span th:text="${author.name + ' ' + author.surname}">Autore</span>
+            </div>
+          </div>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
+
   <footer class="footer">
     <div class="container footer-content">
-      <div class="footer-links">
-        <a th:href="@{/books}">Libri</a>
-        <a th:href="@{/authors}">Autori</a>
-        <a th:href="@{/login}">Login</a>
-      </div>
       <p>© 2025 SIW Book – Tutti i diritti riservati</p>
     </div>
   </footer>

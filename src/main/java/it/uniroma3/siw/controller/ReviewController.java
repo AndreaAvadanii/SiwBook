@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import jakarta.validation.Valid;
 
 import it.uniroma3.siw.model.Review;
@@ -27,6 +28,19 @@ public class ReviewController {
 
     @Autowired
     private CredentialsService credentialsService;
+
+    @GetMapping("/admin/manageReviews")
+    public String manageReviews(Model model) {
+        List<Review> reviews = (List<Review>) reviewService.findAll();
+        model.addAttribute("reviews", reviews);
+        return "admin/manageReviews.html";
+    }
+
+    @GetMapping("/admin/removeReview/{id}")
+    public String removeReview(@PathVariable Long id) {
+        reviewService.deleteById(id);
+        return "redirect:/admin/manageReviews";
+    }
 
     @GetMapping("/book/{bookId}/formNewReview")
     public String formNewReview(@PathVariable Long bookId, Model model) {
@@ -94,12 +108,6 @@ public class ReviewController {
         existing.setText(review.getText());
         reviewService.save(bookId, authenticatedUserId, existing);
         return "redirect:/book/" + bookId;
-    }
-
-    @GetMapping("/admin/removeReview/{id}")
-    public String removeReview(@PathVariable Long id) {
-        reviewService.deleteById(id);
-        return "redirect:/admin/manageBooks";
     }
 
     @GetMapping("/user/reviews")

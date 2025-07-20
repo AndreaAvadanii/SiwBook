@@ -8,7 +8,6 @@
 </head>
 <body>
 
-  <!-- NAVBAR -->
   <header class="navbar">
     <div class="container navbar-content">
       <a class="logo" th:href="@{/}">SIW Book</a>
@@ -20,40 +19,42 @@
     </div>
   </header>
 
-  <!-- HERO -->
   <section class="hero" style="background-image:url('/images/libreria.jpg')">
     <div class="overlay"></div>
     <div class="hero-text container">
       <h1>Benvenuto, <span th:text="${user.name}">Utente</span>!</h1>
       <p>Scopri nuovi titoli, leggi le recensioni e condividi i tuoi pareri.</p>
       <a class="btn" th:href="@{/books}">Esplora Libri</a>
-      <!-- qui con slash iniziale -->
       <a class="btn" th:href="@{/user/reviews}">Le mie recensioni</a>
     </div>
   </section>
 
-  <!-- FEATURED BOOKS -->
   <section class="featured container">
-    <h2>Libri in evidenza</h2>
+    <h2>Libri con la valutazione più alta</h2>
+
     <div class="carousel-container">
       <a href="#s0" class="arrow prev">&#10094;</a>
       <div class="carousel">
         <div th:each="book, stat : ${books}"
-             th:id="'s' + ${stat.index}"
+             th:id="${'s' + stat.index}"
              class="book-card cover-only">
+
           <a th:href="@{/book/{id}(id=${book.id})}">
             <div class="card-image">
-              <img th:src="@{${book.urlImage}}"
-                   th:alt="'Copertina di ' + ${book.title}">
+              <img th:if="${#lists.isEmpty(book.urlImages)}"
+                   th:src="@{/images/default.jpg}"
+                   th:alt="|Copertina di ${book.title}|" />
+              <img th:if="${!#lists.isEmpty(book.urlImages)}"
+                   th:src="@{/images/{file}(file=${book.urlImages[0]})}"
+                   th:alt="|Copertina di ${book.title}|" />
             </div>
           </a>
         </div>
       </div>
-      <a th:href="'#s' + ${lastIndex}" class="arrow next">&#10095;</a>
+      <a th:href="|#s${lastIndex}|" class="arrow next">&#10095;</a>
     </div>
   </section>
 
-  <!-- USER REVIEWS (anteprima) -->
   <section class="reviews container">
     <h2>Le tue recensioni</h2>
     <div th:if="${reviews.empty}">
@@ -61,7 +62,7 @@
     </div>
     <div th:each="review : ${reviews}" class="review-card">
       <div class="review-header">
-        <a th:href="@{/book/{id}(id=${review.book.id})}"
+        <a th:href="@{/books/{id}(id=${review.book.id})}"
            class="review-user"
            th:text="${review.book.title}">Titolo Libro</a>
         <span class="review-rating" th:text="${review.rating} + ' / 5'">5 / 5</span>
@@ -69,15 +70,14 @@
       <h3 class="review-title" th:text="${review.title}">Titolo Recensione</h3>
       <p class="review-text" th:text="${review.text}">Testo della recensione…</p>
       <div style="margin-top:1rem;">
-		<a th:href="@{/book/{bookId}/formUpdateReview/{reviewId}
-		               (bookId=${review.book.id},reviewId=${review.id})}">
-		    Modifica
-		</a>
+        <a class="btn"
+           th:href="@{/books/{bookId}/formUpdateReview/{reviewId}(bookId=${review.book.id},reviewId=${review.id})}">
+          Modifica
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer-content">
       <div class="footer-links">

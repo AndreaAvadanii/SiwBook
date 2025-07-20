@@ -1,70 +1,84 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title th:text="'SIW Book – ' + ${book.title}">SIW Book – Dettaglio</title>
+  <title th:text="'SIW Book – ' + ${book.title}">SIW Book – Dettaglio Libro</title>
   <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <div th:insert="fragments/navbar :: navbar"></div>
-  
-  <!-- BOOK DETAIL -->
-  <section class="book-detail container">
+  <div th:insert="~{fragments/navbar :: navbar}"></div>
+
+  <section class="book-detail container" style="margin-top:100px;">
     <div class="detail-header">
       <div class="detail-image">
-        <img th:src="@{${book.urlImage}}" th:alt="'Copertina di ' + ${book.title}">
+        <img th:if="${#lists.isEmpty(book.urlImages)}"
+             th:src="@{/images/default.jpg}"
+             th:alt="'Copertina di ' + ${book.title}" />
+        <img th:if="${!#lists.isEmpty(book.urlImages)}"
+             th:src="@{/images/{file}(file=${book.urlImages[0]})}"
+             th:alt="'Copertina di ' + ${book.title}" />
       </div>
       <div class="detail-info">
         <h1 th:text="${book.title}">Titolo Libro</h1>
-        <p class="year" th:text="'Anno: ' + ${book.year}">Anno</p>
         <p class="authors">
-          <strong>Autori:</strong>
           <span th:each="author, iterStat : ${book.authors}">
             <a th:href="@{/author/{id}(id=${author.id})}"
-               th:text="${author.name + ' ' + author.surname}">Nome Cognome</a>
+               th:text="${author.name + ' ' + author.surname}">Autore</a>
             <span th:if="${!iterStat.last}">, </span>
           </span>
         </p>
+        <p class="year" th:text="'Anno: ' + ${book.year}">Anno</p>
+
+        <p class="average-rating"
+           th:if="${#lists.size(book.reviews) > 0}"
+           th:text="|Voto medio: ${averageRating} / 5|">
+        </p>
+        <p class="average-rating"
+           th:unless="${#lists.size(book.reviews) > 0}">
+          Ancora nessun voto
+        </p>
+
         <sec:authorize access="isAuthenticated()">
-          <a class="btn"
-             th:href="@{/book/{id}/formNewReview(id=${book.id})}">
+          <a class="btn" th:href="@{/book/{id}/formNewReview(id=${book.id})}">
             Aggiungi Recensione
           </a>
         </sec:authorize>
       </div>
     </div>
 
-    <div class="reviews" style="margin-top:4rem;">
-      <h2>Recensioni</h2>
-      <div th:if="${#lists.isEmpty(book.reviews)}">
-        <p>Ancora nessuna recensione per questo libro.</p>
+    <div th:if="${#lists.size(book.urlImages) >= 2}">
+      <h2>Galleria</h2>
+      <div class="thumbnails-container">
+        <img th:each="imgUrl : ${book.urlImages}"
+             th:src="@{/images/{file}(file=${imgUrl})}"
+             th:alt="'Miniatura di ' + ${book.title}"
+             class="thumbnail" />
       </div>
-      <div class="review-card" th:each="rev : ${book.reviews}">
+    </div>
+
+    <div class="reviews">
+      <h2>Recensioni</h2>
+      <div th:if="${book.reviews.empty}">
+        <p>Nessuna recensione disponibile.</p>
+      </div>
+      <div th:each="review : ${book.reviews}" class="review-card">
         <div class="review-header">
-          <span class="review-user" th:text="${rev.user.name + ' ' + rev.user.surname}">Utente</span>
-          <span class="review-rating" th:text="'Voto: ' + ${rev.rating} + '/5'">Voto</span>
+          <span class="review-user" th:text="${review.user.name}">Utente</span>
+          <span class="review-rating" th:text="${review.rating} + ' / 5'">5 / 5</span>
         </div>
-        <h3 class="review-title" th:text="${rev.title}">Titolo Recensione</h3>
-        <p class="review-text" th:text="${rev.text}">Testo recensione...</p>
+        <h3 class="review-title" th:text="${review.title}">Titolo Recensione</h3>
+        <p class="review-text" th:text="${review.text}">Testo recensione…</p>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer-content">
-      <div class="footer-links">
-        <a th:href="@{/books}">Libri</a>
-        <a th:href="@{/authors}">Autori</a>
-        <a th:href="@{/login}">Login</a>
-      </div>
       <p>© 2025 SIW Book – Tutti i diritti riservati</p>
     </div>
   </footer>
-
 </body>
 </html>

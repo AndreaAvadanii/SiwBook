@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,8 +20,10 @@ public class Book {
     private Long id;
     private String title;
     private Integer year;
-    private String urlImage;
-
+    
+    @ElementCollection
+    private List<String> urlImages;
+    
     @ManyToMany
     private Set<Author> authors;
 
@@ -51,14 +54,6 @@ public class Book {
 		this.year = year;
 	}
 
-	public String getUrlImage() {
-		return urlImage;
-	}
-
-	public void setUrlImage(String urlImage) {
-		this.urlImage = urlImage;
-	}
-
 	public Set<Author> getAuthors() {
 		return authors;
 	}
@@ -73,5 +68,13 @@ public class Book {
 
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
+	}
+
+	public List<String> getUrlImages() {
+		return urlImages;
+	}
+
+	public void setUrlImages(List<String> urlImages) {
+		this.urlImages = urlImages;
 	}
 }

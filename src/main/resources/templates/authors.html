@@ -18,8 +18,8 @@
       <div class="book-card" th:each="author : ${authors}">
         <a th:href="@{/author/{id}(id=${author.id})}">
           <div class="card-image">
-            <img th:src="@{${author.urlImage}}" 
-                 th:alt="'Ritratto di ' + ${author.name} + ' ' + ${author.surname}">
+			<img th:src="@{/images/{file}(file=${author.urlImage})}"
+				th:alt="'Ritratto di ' + ${author.name} + ' ' + ${author.surname}">
           </div>
           <div class="card-info">
             <h3 th:text="${author.name + ' ' + author.surname}">Nome Cognome</h3>

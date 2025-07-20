@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SIW Book – Modifica Libro</title>
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+
+  <div th:insert="~{fragments/navbar :: navbar}"></div>
+
+  <main class="container" style="margin-top:100px;">
+    <h1>Modifica Libro</h1>
+
+    <form th:action="@{/admin/formUpdateBook/{id}(id=${book.id})}"
+          th:object="${book}"
+          method="post"
+          enctype="multipart/form-data"
+          class="form-container">
+
+      <div class="form-group">
+        <label for="title">Titolo</label>
+        <input id="title" type="text" th:field="*{title}" placeholder="Titolo del libro" required />
+      </div>
+
+      <div class="form-group">
+        <label for="year">Anno di Pubblicazione</label>
+        <input id="year" type="number" th:field="*{year}" min="0" placeholder="Anno (es. 2025)" required />
+      </div>
+
+      <div class="form-group">
+        <label for="authorIds">Autori</label>
+        <select id="authorIds" name="authorIds" multiple required>
+          <option th:each="author : ${allAuthors}"
+                  th:value="${author.id}"
+                  th:text="${author.name + ' ' + author.surname}"
+                  th:selected="${book.authors.contains(author)}">
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="images">Carica Nuove Immagini (facoltativo)</label>
+        <input id="images" type="file" name="images" multiple accept="image/*" />
+      </div>
+
+      <button type="submit" class="btn">Aggiorna Libro</button>
+    </form>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>© 2025 SIW Book – Tutti i diritti riservati</p>
+    </div>
+  </footer>
+
+</body>
+</html>

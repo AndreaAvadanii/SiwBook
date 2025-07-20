@@ -1,6 +1,11 @@
-// src/main/java/it/uniroma3/siw/controller/BookController.java
 package it.uniroma3.siw.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,122 +15,145 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-
-import it.uniroma3.siw.model.Book;
 import it.uniroma3.siw.model.Author;
+import it.uniroma3.siw.model.Book;
+import it.uniroma3.siw.service.AuthorService;
 import it.uniroma3.siw.service.BookService;
 import jakarta.validation.Valid;
-import it.uniroma3.siw.service.AuthorService;
 
 @Controller
 public class BookController {
 
-	@Autowired private BookService bookService;
-	@Autowired private AuthorService authorService;
-	
-//    @GetMapping({ "/", "/index" })
-//    public String home(Model model) {
-//        List<Book> books = (List<Book>) bookService.findAll();
-//        model.addAttribute("books", books);
-//        model.addAttribute("lastIndex", books.size() - 1);
-//        return "index";
-//    }
+    private static final String UPLOAD_DIR = "src/main/resources/static/images";
+
+    @Autowired
+    private BookService bookService;
+    @Autowired
+    private AuthorService authorService;
+
+    @GetMapping("/books")
+    public String listBooks(Model model) {
+        model.addAttribute("books", bookService.findAll());
+        return "books.html";
+    }
+
+    @GetMapping("/book/{id}")
+    public String showBook(@PathVariable Long id, Model model) {
+        Book book = bookService.findById(id);
+        double average = 0.0;
+        if (book.getReviews() != null && !book.getReviews().isEmpty()) {
+            average = book.getReviews()
+                         .stream()
+                         .mapToDouble(r -> r.getRating())
+                         .average()
+                         .orElse(0.0);
+        }
+        double roundedAvg = Math.round(average * 10.0) / 10.0;
+        model.addAttribute("book", book);
+        model.addAttribute("averageRating", roundedAvg);
+        return "book";
+    }
 
 
-	// UC4: Elenco paginato di tutti i libri
-	@GetMapping("/books")
-	public String listBooks(Model model) {
-		model.addAttribute("books", bookService.findAll());
-		return "books.html";
-	}
+    @GetMapping("/admin/formNewBook")
+    public String formNewBook(Model model) {
+        model.addAttribute("book", new Book());
+        model.addAttribute("allAuthors", authorService.findAll());
+        return "admin/formNewBook.html";
+    }
 
-	// UC5: Dettagli di un libro
-	@GetMapping("/book/{id}")
-	public String showBook(@PathVariable Long id, Model model) {
-		Book book = bookService.findById(id);
-		model.addAttribute("book", book);
-		return "book.html";
-	}    
+    @PostMapping("/admin/book")
+    public String newBook(@Valid @ModelAttribute Book book,
+                          BindingResult bindingResult,
+                          @RequestParam(required = false) List<Long> authorIds,
+                          @RequestParam("images") MultipartFile[] images,
+                          Model model) throws IOException {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("allAuthors", authorService.findAll());
+            return "admin/formNewBook.html";
+        }
+        if (authorIds != null) {
+            Set<Author> auths = new HashSet<>();
+            for (Long aid : authorIds) {
+                Author a = authorService.findById(aid);
+                if (a != null) auths.add(a);
+            }
+            book.setAuthors(auths);
+        }
+        List<String> filenames = new ArrayList<>();
+        for (MultipartFile file : images) {
+            if (file != null && !file.isEmpty()) {
+                String name = file.getOriginalFilename();
+                Path filePath = Paths.get(UPLOAD_DIR + File.separator + name);
+                Files.write(filePath, file.getBytes());
+                filenames.add(name);
+            }
+        }
+        book.setUrlImages(filenames);
+        bookService.save(book);
+        return "redirect:/book/" + book.getId();
+    }
 
-	// UC1: Form per nuovo libro (admin)
-	@GetMapping("/admin/formNewBook")
-	public String formNewBook(Model model) {
-		model.addAttribute("book", new Book());
-		model.addAttribute("allAuthors", authorService.findAll());
-		return "admin/formNewBook.html";
-	}
+    @GetMapping("/admin/formUpdateBook/{id}")
+    public String formUpdateBook(@PathVariable Long id, Model model) {
+        model.addAttribute("book", bookService.findById(id));
+        model.addAttribute("allAuthors", authorService.findAll());
+        return "admin/formUpdateBook.html";
+    }
 
-	// UC1: Salva nuovo libro
-	@PostMapping("/admin/book")
-	public String newBook(@Valid @ModelAttribute Book book,
-			BindingResult bindingResult,
-			@RequestParam(required = false) List<Long> authorIds,
-			Model model) {
-		if (bindingResult.hasErrors()) {
-			model.addAttribute("allAuthors", authorService.findAll());
-			return "admin/formNewBook.html";
-		}
-		if (authorIds != null) {
-			Set<Author> auths = new HashSet<>();
-			for (Long aid : authorIds) {
-				Author a = authorService.findById(aid);
-				if (a != null) auths.add(a);
-			}
-			book.setAuthors(auths);
-		}
-		bookService.save(book);
-		return "redirect:/book/" + book.getId();
-	}
+    @PostMapping("/admin/formUpdateBook/{id}")
+    public String updateBook(@PathVariable Long id,
+                             @Valid @ModelAttribute Book book,
+                             BindingResult bindingResult,
+                             @RequestParam(required = false) List<Long> authorIds,
+                             @RequestParam("images") MultipartFile[] images,
+                             Model model) throws IOException {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("allAuthors", authorService.findAll());
+            return "admin/formUpdateBook.html";
+        }
+        Book existing = bookService.findById(id);
+        existing.setTitle(book.getTitle());
+        existing.setYear(book.getYear());
+        // aggiorna autori
+        if (authorIds != null) {
+            Set<Author> auths = new HashSet<>();
+            for (Long aid : authorIds) {
+                Author a = authorService.findById(aid);
+                if (a != null) auths.add(a);
+            }
+            existing.setAuthors(auths);
+        }
+        // aggiunge nuove immagini se ce ne sono
+        List<String> filenames = new ArrayList<>();
+        for (MultipartFile file : images) {
+            if (file != null && !file.isEmpty()) {
+                String name = file.getOriginalFilename();
+                Path filePath = Paths.get(UPLOAD_DIR, name);
+                Files.write(filePath, file.getBytes());
+                filenames.add(name);
+            }
+        }
+        if (!filenames.isEmpty()) {
+            existing.setUrlImages(filenames);
+        }
+        bookService.save(existing);
+        return "redirect:/admin/manageBooks";
+    }
 
-	// UC2: Form edit libro (admin)
-	@GetMapping("/admin/editBook/{id}")
-	public String formEditBook(@PathVariable Long id, Model model) {
-		model.addAttribute("book", bookService.findById(id));
-		model.addAttribute("allAuthors", authorService.findAll());
-		return "admin/formEditBook.html";
-	}
 
-	// UC2: Salva modifica libro
-	@PostMapping("/admin/editBook/{id}")
-	public String editBook(@PathVariable Long id,
-			@Valid @ModelAttribute Book book,
-			BindingResult bindingResult,
-			@RequestParam(required = false) List<Long> authorIds,
-			Model model) {
-		if (bindingResult.hasErrors()) {
-			model.addAttribute("allAuthors", authorService.findAll());
-			return "admin/formEditBook.html";
-		}
-		// invece di setId, prendi l’esistente e aggiornalo
-		Book existing = bookService.findById(id);
-		existing.setTitle(book.getTitle());
-		existing.setYear(book.getYear());
-		existing.setUrlImage(book.getUrlImage());
-		if (authorIds != null) {
-			Set<Author> auths = new HashSet<>();
-			for (Long aid : authorIds) {
-				Author a = authorService.findById(aid);
-				if (a != null) auths.add(a);
-			}
-			existing.setAuthors(auths);
-		}
-		bookService.save(existing);
-		return "redirect:/admin/manageBooks";
-	}
+    @GetMapping("/admin/manageBooks")
+    public String manageBooks(Model model) {
+        model.addAttribute("books", bookService.findAll());
+        return "admin/manageBooks.html";
+    }
 
-	// Admin: lista di gestione libri
-	@GetMapping("/admin/manageBooks")
-	public String manageBooks(Model model) {
-		model.addAttribute("books", bookService.findAll());
-		return "admin/manageBooks.html";
-	}
-
-	// UC2: Rimuovi libro
-	@GetMapping("/admin/removeBook/{id}")
-	public String removeBook(@PathVariable Long id) {
-		Book book = bookService.findById(id);
-		bookService.delete(book);
-		return "redirect:/admin/manageBooks";
-	}
+    @GetMapping("/admin/removeBook/{id}")
+    public String removeBook(@PathVariable Long id) {
+        Book book = bookService.findById(id);
+        bookService.delete(book);
+        return "redirect:/admin/manageBooks";
+    }
 }

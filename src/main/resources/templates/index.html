@@ -32,27 +32,28 @@
 
   <!-- FEATURED -->
   <section class="featured container">
-    <h2>Libri in evidenza</h2>
-    <div class="carousel-container">
+    <h2>Libri con la valutazione più alta</h2>
+	<div class="carousel-container">
+	      <a href="#s0" class="arrow prev">&#10094;</a>
+	      <div class="carousel">
+	        <div th:each="book, stat : ${books}"
+	             th:id="${'s' + stat.index}"
+	             class="book-card cover-only">
 
-      <a href="#s0" class="arrow prev">&#10094;</a>
-
-      <div class="carousel">
-        <div th:each="book, stat : ${books}"
-             th:id="'s' + ${stat.index}"
-             class="book-card cover-only">
-          <a th:href="@{/book/{id}(id=${book.id})}">
-            <div class="card-image">
-              <img th:src="@{${book.urlImage}}"
-                   th:alt="'Copertina di ' + ${book.title}">
-            </div>
-          </a>
-        </div>
-      </div>
-
-      <a th:href="'#s' + ${lastIndex}" class="arrow next">&#10095;</a>
-
-    </div>
+	          <a th:href="@{/book/{id}(id=${book.id})}">
+	            <div class="card-image">
+	              <img th:if="${#lists.isEmpty(book.urlImages)}"
+	                   th:src="@{/images/default.jpg}"
+	                   th:alt="|Copertina di ${book.title}|" />
+	              <img th:if="${!#lists.isEmpty(book.urlImages)}"
+	                   th:src="@{/images/{file}(file=${book.urlImages[0]})}"
+	                   th:alt="|Copertina di ${book.title}|" />
+	            </div>
+	          </a>
+	        </div>
+	      </div>
+	      <a th:href="|#s${lastIndex}|" class="arrow next">&#10095;</a>
+	    </div>
   </section>
 
 

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SIW Book – Nuovo Autore</title>
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="container navbar-content">
+      <a class="logo" th:href="@{/admin/index}">SIW Book Admin</a>
+      <nav class="nav-links">
+        <a th:href="@{/admin/index}">Dashboard</a>
+        <a th:href="@{/admin/manageBooks}">Gestione Libri</a>
+        <a th:href="@{/admin/manageReviews}">Gestione Recensioni</a>
+        <a th:href="@{/admin/manageAuthors}">Gestione Autori</a>
+        <a th:href="@{/logout}">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="margin-top:100px;">
+    <h1>Crea un Nuovo Autore</h1>
+
+    <form th:action="@{/admin/author}"
+          th:object="${author}"
+          method="post"
+          enctype="multipart/form-data"
+          class="form-container">
+
+      <div class="form-group">
+        <label for="name">Nome</label>
+        <input id="name" type="text" th:field="*{name}" placeholder="Nome" required />
+      </div>
+
+      <div class="form-group">
+        <label for="surname">Cognome</label>
+        <input id="surname" type="text" th:field="*{surname}" placeholder="Cognome" required />
+      </div>
+
+      <div class="form-group">
+        <label for="birthdate">Data di Nascita</label>
+        <input id="birthdate" type="date" th:field="*{birthdate}" required />
+      </div>
+
+      <div class="form-group">
+        <label for="deathdate">Data di Morte</label>
+        <input id="deathdate" type="date" th:field="*{deathdate}" />
+      </div>
+
+      <div class="form-group">
+        <label for="nationality">Nazionalità</label>
+        <input id="nationality" type="text" th:field="*{nationality}" placeholder="Nazionalità" required />
+      </div>
+
+      <div class="form-group">
+        <label for="image">Carica Immagine</label>
+        <input id="image" type="file" name="image" accept="image/*" />
+      </div>
+
+      <button type="submit" class="btn">Salva Autore</button>
+    </form>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>© 2025 SIW Book – Tutti i diritti riservati</p>
+    </div>
+  </footer>
+
+</body>
+</html>

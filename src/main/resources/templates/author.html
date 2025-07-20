@@ -17,10 +17,10 @@
   <!-- AUTHOR DETAIL -->
   <section class="book-detail container">
     <div class="detail-header">
-      <div class="detail-image">
-        <img th:src="@{${author.urlImage}}"
-             th:alt="'Ritratto di ' + ${author.name} + ' ' + ${author.surname}">
-      </div>
+		<div class="detail-image">
+		  <img th:src="@{/images/{file}(file=${author.urlImage})}"
+		       th:alt="'Ritratto di ' + ${author.name} + ' ' + ${author.surname}">
+		</div>
       <div class="detail-info">
         <h1 th:text="${author.name + ' ' + author.surname}">Nome Cognome</h1>
         <p class="year"
