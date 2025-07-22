@@ -19,39 +19,40 @@
   </header>
 
   <section class="container" style="padding:6rem 0;">
-    <form th:action="@{/register}" method="post">
+    <form th:action="@{/register}" method="post" class="form-container">
       <h2>Registrazione</h2>
-      <div>
+
+      <div class="input-wrapper">
+        <input id="name" name="name" type="text" required placeholder=" ">
         <label for="name">Nome</label>
-        <input id="name" name="name" type="text" required>
       </div>
-      <div style="margin-top:1rem;">
+
+      <div class="input-wrapper">
+        <input id="surname" name="surname" type="text" required placeholder=" ">
         <label for="surname">Cognome</label>
-        <input id="surname" name="surname" type="text" required>
       </div>
-      <div style="margin-top:1rem;">
+
+      <div class="input-wrapper">
+        <input id="birthdate" name="birthdate" type="date" required placeholder=" ">
         <label for="birthdate">Data di nascita</label>
-        <input id="birthdate" name="birthdate" type="date" required>
       </div>
-      <div style="margin-top:1rem;">
+
+      <div class="input-wrapper">
+        <input id="username" name="username" type="text" required placeholder=" ">
         <label for="username">Username</label>
-        <input id="username" name="username" type="text" required>
       </div>
-      <div style="margin-top:1rem;">
+
+      <div class="input-wrapper">
+        <input id="password" name="password" type="password" required placeholder=" ">
         <label for="password">Password</label>
-        <input id="password" name="password" type="password" required>
       </div>
-      <button type="submit" class="btn" style="margin-top:2rem;">Registrati</button>
+
+      <button type="submit" class="btn">Registrati</button>
     </form>
   </section>
 
   <footer class="footer">
     <div class="container footer-content">
-      <div class="footer-links">
-        <a th:href="@{/books}">Libri</a>
-        <a th:href="@{/authors}">Autori</a>
-        <a th:href="@{/login}">Login</a>
-      </div>
       <p>© 2025 SIW Book – Tutti i diritti riservati</p>
     </div>
   </footer>

@@ -13,9 +13,8 @@
   <section class="featured container">
     <h2>Tutti i Libri</h2>
     <div class="book-grid">
-      <div th:each="book, iterStat : ${books}"
-           class="book-card"
-           th:classappend="${iterStat.index == 0} ? ' cover-only' : ''">
+		<div th:each="book : ${books}" class="book-card">
+
         <a th:href="@{/book/{id}(id=${book.id})}">
           <div class="card-image">
             <img th:if="${#lists.isEmpty(book.urlImages)}"

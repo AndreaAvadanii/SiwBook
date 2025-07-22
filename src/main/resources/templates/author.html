@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title th:text="'SIW Book – ' + ${author.name} + ' ' + ${author.surname}">
-    SIW Book – Autore
-  </title>
-  <link th:href="@{/css/style.css}" rel="stylesheet">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title th:text="'SIW Book – ' + ${author.name} + ' ' + ${author.surname}">SIW Book – Autore</title>
+  <link th:href="@{/css/style.css}" rel="stylesheet"/>
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <div th:insert="fragments/navbar :: navbar"></div>
+  <div th:insert="~{fragments/navbar :: navbar}"></div>
 
-
-  <!-- AUTHOR DETAIL -->
   <section class="book-detail container">
     <div class="detail-header">
-		<div class="detail-image">
-		  <img th:src="@{/images/{file}(file=${author.urlImage})}"
-		       th:alt="'Ritratto di ' + ${author.name} + ' ' + ${author.surname}">
-		</div>
+      <div class="detail-image">
+        <img th:src="@{/images/{file}(file=${author.urlImage})}"
+             th:alt="'Ritratto di ' + ${author.name} + ' ' + ${author.surname}"/>
+      </div>
       <div class="detail-info">
         <h1 th:text="${author.name + ' ' + author.surname}">Nome Cognome</h1>
-        <p class="year"
-           th:text="'Nato: ' + ${author.birthdate} + 
-                    (author.deathdate != null ? ' – Deceduto: ' + author.deathdate : '')">
-          Date di vita
+        <p class="year">
+          <strong>Nato:</strong>
+          <span th:text="${author.birthdate}">00/00/0000</span>
+        </p>
+        <p class="year" th:if="${author.deathdate != null}">
+          <strong>Deceduto:</strong>
+          <span th:text="${author.deathdate}">00/00/0000</span>
         </p>
         <p class="authors">
           <strong>Nazionalità:</strong>
@@ -36,29 +34,33 @@
     </div>
   </section>
 
-  <!-- BOOKS BY AUTHOR -->
-  <section class="featured container">
-    <h2 th:text="'Libri di ' + ${author.name} +' '+ ${author.surname}">I suoi libri</h2>
+  <section class="books container">
+    <h2 th:text="'Libri di ' + ${author.name} + ' ' + ${author.surname}">I suoi libri</h2>
     <div class="book-grid">
-      <div class="book-card cover-only" th:each="book : ${author.books}">
+      <div th:each="book : ${author.books}" class="book-card">
         <a th:href="@{/book/{id}(id=${book.id})}">
           <div class="card-image">
-            <img th:src="@{${book.urlImage}}"
-                 th:alt="'Copertina di ' + ${book.title}">
+            <img th:if="${#lists.isEmpty(book.urlImages)}"
+                 th:src="@{/images/default.jpg}"
+                 th:alt="|Copertina di ${book.title}|"/>
+            <img th:if="${!#lists.isEmpty(book.urlImages)}"
+                 th:src="@{/images/{file}(file=${book.urlImages[0]})}"
+                 th:alt="|Copertina di ${book.title}|"/>
+          </div>
+          <div class="card-info">
+            <h3 th:text="${book.title}">Titolo</h3>
+            <span class="year" th:text="${book.year}">Anno</span>
+            <div class="year" th:each="coauthor : ${book.authors}">
+              <span th:text="${coauthor.name + ' ' + coauthor.surname}">Autore</span>
+            </div>
           </div>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer-content">
-      <div class="footer-links">
-        <a th:href="@{/books}">Libri</a>
-        <a th:href="@{/authors}">Autori</a>
-        <a th:href="@{/login}">Login</a>
-      </div>
       <p>© 2025 SIW Book – Tutti i diritti riservati</p>
     </div>
   </footer>

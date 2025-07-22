@@ -1,11 +1,10 @@
-/* 1) RESET */
+/* -------------------------------- RESET & ROOT VARIABLES -------------------------------- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Variabili colori e radius */
 :root {
   --color-primary: #A45848;
   --color-primary-light: rgba(164, 88, 72, 0.2);
@@ -14,12 +13,16 @@
   --radius-base: 0.5rem;
   --radius-lg: 0.75rem;
 }
+a {
+  text-decoration: none;
+}
 
-/* 2) BASE STYLES */
+/* -------------------------------- BASE STYLES -------------------------------- */
 html {
   scroll-behavior: smooth;
   height: 100%;
 }
+
 body {
   display: flex;
   flex-direction: column;
@@ -30,53 +33,57 @@ body {
   min-height: 100%;
 }
 
-/* 3) CONTAINER */
 .container {
   width: 90%;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* 3.1) FORM STYLES */
+/* -------------------------------- FORM STYLES -------------------------------- */
 .form-container {
-  background: #FFFFFF;
+  background: #fff;
   padding: 2rem;
   border-radius: var(--radius-lg);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
+
 .form-group {
   margin-bottom: 1.5rem;
 }
+
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: #555555;
+  color: #555;
 }
-.form-group input[type="text"],
-.form-group input[type="number"],
-.form-group input[type="file"],
+
+.form-group input[type=text],
+.form-group input[type=number],
+.form-group input[type=file],
 .form-group select {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 1px solid #CCCCCC;
+  border: 1px solid #ccc;
   border-radius: var(--radius-base);
   background-color: var(--color-bg-input);
   font-size: 1rem;
   transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
 }
+
 .form-group input::placeholder {
-  color: #AAAAAA;
+  color: #aaa;
 }
+
 .form-group input:focus,
 .form-group select:focus,
-.form-group input[type="file"]:focus {
+.form-group input[type=file]:focus {
   outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px var(--color-primary-light);
-  background-color: #FFFFFF;
+  background: #fff;
 }
-/* custom arrow per select */
+
 .form-group select {
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,<svg fill='%23A45848' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
@@ -84,35 +91,83 @@ body {
   background-position: right 1rem center;
   background-size: 1rem;
 }
-/* file input padding */
-.form-group input[type="file"] {
+
+.form-group input[type=file] {
   padding: 0.5rem;
   background-color: var(--color-bg-input);
 }
 
-/* 4) NAVBAR */
+.input-wrapper {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 1.25rem 1rem 0.5rem;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  border-radius: 0;
+  background: transparent;
+  font-size: 1rem;
+  color: var(--color-primary);
+  transition: border-color 0.3s;
+}
+
+.input-wrapper input:focus {
+  outline: none;
+  border-bottom-color: var(--color-primary);
+}
+
+.input-wrapper label {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 1rem;
+  color: #777;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.input-wrapper input:focus + label,
+.input-wrapper input:not(:placeholder-shown) + label {
+  top: -0.6rem;
+  left: 0.75rem;
+  font-size: 0.75rem;
+  background: #fff;
+  padding: 0 0.25rem;
+  color: var(--color-primary);
+}
+
+/* -------------------------------- NAVBAR -------------------------------- */
 .navbar {
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 10;
   background: transparent;
   padding: 1rem 0;
   transition: background 0.3s ease;
 }
+
 .navbar.scrolled {
   background: rgba(17, 17, 17, 0.9);
 }
+
 .navbar-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 .logo {
   color: var(--color-primary);
   font-size: 1.75rem;
   text-decoration: none;
   letter-spacing: 1px;
 }
+
 .nav-links a {
   margin-left: 2rem;
   font-weight: 600;
@@ -120,6 +175,7 @@ body {
   text-decoration: none;
   position: relative;
 }
+
 .nav-links a::after {
   content: '';
   display: block;
@@ -128,13 +184,15 @@ body {
   background: #F2E4C8;
   transition: width 0.3s;
   position: absolute;
-  bottom: -4px; left: 0;
+  bottom: -4px;
+  left: 0;
 }
+
 .nav-links a:hover::after {
   width: 100%;
 }
 
-/* 5) HERO */
+/* -------------------------------- HERO SECTION -------------------------------- */
 .hero {
   position: relative;
   height: 80vh;
@@ -144,27 +202,39 @@ body {
   align-items: center;
   justify-content: center;
 }
+
 .hero .overlay {
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.5);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
 }
+
 .hero-text {
   position: relative;
   text-align: center;
   max-width: 600px;
 }
+
+.hero-text h1,
+.hero-text p {
+  color: #F2E4C8;
+}
+
 .hero-text h1 {
   font-family: 'Playfair Display', serif;
   font-size: 3rem;
   margin-bottom: 1rem;
-  color: #F2E4C8;
 }
+
 .hero-text p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
-  color: #F2E4C8;
 }
+
+/* -------------------------------- BUTTON -------------------------------- */
 .btn {
   display: inline-block;
   background: transparent;
@@ -177,15 +247,17 @@ body {
   transition: background 0.3s, color 0.3s;
   text-decoration: none;
 }
+
 .btn:hover {
   background: var(--color-primary);
   color: #F2E4C8;
 }
 
-/* 6) FEATURED GRID */
+/* -------------------------------- FEATURED BOOKS & CARDS -------------------------------- */
 .featured {
   padding: 4rem 0;
 }
+
 .featured h2 {
   font-family: 'Playfair Display', serif;
   font-size: 2rem;
@@ -194,116 +266,126 @@ body {
   margin-bottom: 2rem;
   letter-spacing: 1px;
 }
+
 .book-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1.5rem;
 }
+
 .book-card {
   background: #EADED2;
-  border: 0.5px solid #333333;
-  border-radius: 8px;
+  border: 0.5px solid #333;
+  border-radius: var(--radius-base);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   transition: transform 0.3s, box-shadow 0.3s;
 }
+
 .book-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 12px 24px var(--color-primary);
 }
-.card-image img {
-  display: block;
+
+.card-image {
   width: 100%;
-  height: auto;
+  padding-bottom: 133.33%;
+  position: relative;
 }
+
+.card-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .card-info {
   padding: 1rem;
+  text-align: center;
 }
+
 .card-info h3 {
   font-family: 'Playfair Display', serif;
   font-size: 1.1rem;
   color: var(--color-primary);
   margin-bottom: 0.5rem;
 }
+
 .card-info .year {
   font-size: 0.9rem;
   color: var(--color-primary);
 }
-.book-card a {
-  text-decoration: none;
-}
-.book-card a h3,
-.book-card a .year,
-.book-card a span {
-  text-decoration: none;
-}
 
-/* 7) BOOK DETAIL */
+/* -------------------------------- BOOK DETAIL & REVIEWS -------------------------------- */
 .book-detail {
   padding: 4rem 0;
 }
+
 .detail-header {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
   margin-bottom: 3rem;
 }
+
 .detail-image img {
   max-width: 300px;
   border-radius: 8px;
   box-shadow: 0 8px 16px #A45848;
 }
+
 .detail-info {
   flex: 1;
 }
-.detail-info h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.5rem;
-  color: #A45848;
-  margin-bottom: 0.5rem;
-}
+
+.detail-info h1,
 .detail-info .year,
 .detail-info .authors {
   color: #A45848;
-  margin-bottom: 1rem;
 }
+
+.detail-info h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
 .reviews {
   margin-top: 2rem;
 }
+
 .reviews h2 {
   font-family: 'Playfair Display', serif;
   color: #A45848;
   margin-bottom: 1rem;
 }
+
 .review-card {
   background: #EADED2;
   border: 1px solid #EADED2;
-  border-radius: 8px;
+  border-radius: var(--radius-base);
   padding: 1rem;
   margin-bottom: 1rem;
 }
+
 .review-header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.5rem;
 }
-.review-user {
-  font-weight: 600;
-  color: #A45848;
-}
-.review-rating {
-  color: #A45848;
-}
-.review-title {
-  font-size: 1.1rem;
-  color: #A45848;
-  margin-bottom: 0.5rem;
-}
+
+.review-user,
+.review-rating,
+.review-title,
 .review-text {
   color: #A45848;
-  line-height: 1.5;
 }
 
-/* 8) CAROUSEL */
+/* -------------------------------- CAROUSEL -------------------------------- */
 .carousel {
   display: flex;
   overflow-x: auto;
@@ -319,7 +401,7 @@ body {
   scroll-snap-align: start;
   flex: 0 0 auto;
   width: 160px;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   background: none;
   border: none;
@@ -327,7 +409,7 @@ body {
 .book-card.cover-only img {
   width: 100%;
   height: auto;
-  border-radius: 6px;
+  border-radius: var(--radius-base);
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   transition: transform 0.3s;
 }
@@ -358,60 +440,65 @@ body {
 .next {
   right: -2rem;
 }
-
-/* 9) FOOTER */
+/* -------------------------------- FOOTER -------------------------------- */
 .footer {
   background: #EADED2;
   padding: 2rem 0;
-  border-top: 2px solid black;
+  border-top: 2px solid #000;
   margin-top: auto;
 }
+
 .footer-content {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .footer-links {
   margin-bottom: 1rem;
 }
+
 .footer-links a {
   margin: 0 1rem;
   color: var(--color-primary);
   font-weight: 400;
   text-decoration: none;
 }
+
 .footer-links a:hover {
   text-decoration: underline;
 }
+
 .footer p {
   font-size: 0.9rem;
   color: var(--color-primary);
 }
 
-/* 10) TABELLA DI GESTIONE (ADMIN) */
+/* -------------------------------- TABLE & MISC -------------------------------- */
 section.container h1 {
   margin-bottom: 1rem;
 }
 
 table {
   width: 100%;
-  border-collapse: collapse; /* Rimuove gli spazi tra le celle */
+  border-collapse: collapse;
   margin-top: 2rem;
-  background-color: #fff; /* Sfondo bianco per una migliore leggibilità */
-  border-radius: 8px; /* Angoli arrotondati come le book-card */
-  overflow: hidden; /* Necessario per far funzionare i border-radius sull'header */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  background: #fff;
+  border-radius: var(--radius-base);
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 thead tr {
-  background-color: #EADED2; /* Colore di sfondo per l'intestazione */
+  background: #EADED2;
   color: #A45848;
   text-align: left;
 }
 
-th, td {
-  padding: 12px 15px; /* Spaziatura interna per le celle */
-  border-bottom: 1px solid #EADED2; /* Linea di separazione tra le righe */
+th,
+td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #EADED2;
 }
 
 th {
@@ -425,48 +512,40 @@ tbody tr {
 }
 
 tbody tr:hover {
-  background-color: #F8F4F0; /* Effetto hover per evidenziare la riga */
-}
-
-tbody tr:last-of-type {
-  border-bottom: none; /* Rimuove il bordo dell'ultima riga */
+  background: #F8F4F0;
 }
 
 td.actions {
   display: flex;
-  gap: 0.5rem; /* Spazio tra i bottoni "Modifica" e "Rimuovi" */
+  gap: 0.5rem;
   align-items: center;
 }
 
-/* Stile specifico per il bottone di rimozione */
 .btn.btn-delete {
   border-color: #c0392b;
   color: #c0392b;
 }
 
 .btn.btn-delete:hover {
-  background-color: #c0392b;
+  background: #c0392b;
   color: #F2E4C8;
 }
 
-
-/* Stili per la galleria di immagini */
 .thumbnails-container {
   display: flex;
-  flex-wrap: wrap; /* Permette alle immagini di andare a capo */
-  gap: 100px;       /* Spazio tra le immagini */
+  flex-wrap: wrap;
+  gap: 100px;
   margin-top: 1rem;
 }
 
 .thumbnail {
-  width: 300px;        /* Imposta una larghezza fissa */
-  height: 500px;       /* Imposta un'altezza fissa */
-  object-fit: cover; /* Evita che l'immagine si deformi, la ritaglia per riempire lo spazio */
-  border-radius: 8px;  /* Aggiunge angoli arrotondati (opzionale) */
-  transition: transform 0.2s ease-in-out; /* Aggiunge una transizione fluida (opzionale) */
+  width: 300px;
+  height: 500px;
+  object-fit: cover;
+  border-radius: var(--radius-base);
+  transition: transform 0.2s ease-in-out;
 }
 
-/* Effetto di ingrandimento al passaggio del mouse (opzionale) */
 .thumbnail:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
