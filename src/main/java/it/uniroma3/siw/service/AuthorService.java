@@ -38,11 +38,8 @@ public class AuthorService {
         return authorRepository.findBySurnameContainingIgnoreCase(surname);
     }
 
-    public List<Author> findByNationalityContainingIgnoreCase(String nationality) {
-        return authorRepository.findByNationalityContainingIgnoreCase(nationality);
-    }
-
     public List<Author> findByBooksId(Long bookId) {
         return authorRepository.findByBooksId(bookId);
     }
+    
 }

@@ -30,7 +30,11 @@
             <span th:if="${!iterStat.last}">, </span>
           </span>
         </p>
-        <p class="year" th:text="'Anno: ' + ${book.year}">Anno</p>
+        <p class="year"> 
+			Anno
+			<p th:href="@{/booksYear(year=${book.year})}"
+			th:text="${book.year}">2025</p>
+        </p>
 
         <p class="average-rating"
            th:if="${#lists.size(book.reviews) > 0}"

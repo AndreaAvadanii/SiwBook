@@ -53,21 +53,19 @@ public class AuthConfiguration {
 	protected SecurityFilterChain configure(final HttpSecurity http) throws Exception {
 
 		http
-		.csrf(csrf -> csrf.disable())     // disabilita davvero
-		.cors(cors -> cors.disable())     // identico al progetto d’esempio
+		.csrf(csrf -> csrf.disable())     
+		.cors(cors -> cors.disable())     
 		.authorizeHttpRequests(auth -> auth
 				/*  ---- Risorse pubbliche ----  */
 				.requestMatchers(HttpMethod.GET,
 						"/", "/index", "/login", "/register",
 						"/css/**", "/images/**", "favicon.ico",
-						"/book/**",                 // proprietà singole
+						"/book/**",                 
 						"/books",
-						"/realestateagencies","/realEstateAgency/**",
 						"/authors", "/author/**",
-						"/formSearchBook",        
-						"/formSearchBool/**").permitAll()  
+						"/booksYear/**").permitAll()  
 				.requestMatchers(HttpMethod.POST,
-						"/login", "/register", "/formSearchProperty").permitAll()
+						"/login", "/register").permitAll()
 
 				/*  ---- Aree protette ----  */
 				.requestMatchers("/admin/**").hasAnyAuthority(ADMIN_ROLE)

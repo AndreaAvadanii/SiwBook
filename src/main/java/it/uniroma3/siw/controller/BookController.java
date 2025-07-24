@@ -38,6 +38,13 @@ public class BookController {
         model.addAttribute("books", bookService.findAll());
         return "books.html";
     }
+    
+    @GetMapping("/booksYear")
+    public String listBooksYear(@RequestParam("year")int year, Model model) {
+    	List<Book> books = bookService.findByYear(year);
+        model.addAttribute("books", books);
+        return "booksYear.html";
+    }
 
     @GetMapping("/book/{id}")
     public String showBook(@PathVariable Long id, Model model) {

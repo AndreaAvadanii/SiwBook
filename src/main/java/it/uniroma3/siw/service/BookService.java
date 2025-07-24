@@ -41,4 +41,8 @@ public class BookService {
     public List<Book> findByAuthorsId(Long authorId) {
         return bookRepository.findByAuthorsId(authorId);
     }
+    
+    public List<Book> findByYear(int year) {
+        return bookRepository.findByYear(year);
+    }
 }

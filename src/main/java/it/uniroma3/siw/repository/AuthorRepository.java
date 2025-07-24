@@ -15,7 +15,7 @@ public interface AuthorRepository extends CrudRepository<Author, Long> {
 
     List<Author> findBySurnameContainingIgnoreCase(String surname);
 
-    List<Author> findByNationalityContainingIgnoreCase(String nationality);
-
     List<Author> findByBooksId(Long bookId);
+    
+    
 }

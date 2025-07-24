@@ -19,11 +19,11 @@
       <div class="detail-info">
         <h1 th:text="${author.name + ' ' + author.surname}">Nome Cognome</h1>
         <p class="year">
-          <strong>Nato:</strong>
+          <strong>Nascita:</strong>
           <span th:text="${author.birthdate}">00/00/0000</span>
         </p>
         <p class="year" th:if="${author.deathdate != null}">
-          <strong>Deceduto:</strong>
+          <strong>Morte:</strong>
           <span th:text="${author.deathdate}">00/00/0000</span>
         </p>
         <p class="authors">
@@ -34,7 +34,7 @@
     </div>
   </section>
 
-  <section class="books container">
+  <section class="books container" style="margin-bottom: 4rem;">
     <h2 th:text="'Libri di ' + ${author.name} + ' ' + ${author.surname}">I suoi libri</h2>
     <div class="book-grid">
       <div th:each="book : ${author.books}" class="book-card">
