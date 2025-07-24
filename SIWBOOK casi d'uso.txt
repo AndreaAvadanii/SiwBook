@@ -1,0 +1,44 @@
+CASI D’USO – UTENTE GENERICO
+attore primario e finale: Utente generico
+
+UC6 – Visualizza elenco libri
+L’utente generico vuole sfogliare la lista paginata di tutti i libri.
+Clicca su “Libri”: può scorrere l’elenco o cercare per titolo. Per ogni libro visualizza titolo, anno e copertina.
+
+UC7 – Visualizza dettagli libro
+L’utente generico vuole vedere tutte le informazioni di un libro specifico.
+Da elenco o ricerca, clicca su “Dettagli”: visualizza descrizione, autori, copertina, recensioni e galleria immagini.
+
+UC8 – Visualizza dettagli autore
+L’utente generico vuole consultare le informazioni su un autore.
+Clicca su “Autori”: sfoglia o cerca per cognome. Clicca su “Dettagli”: visualizza biografia, date di nascita/morte, nazionalità e opere correlate.
+
+---
+
+CASI D’USO – UTENTE REGISTRATO
+attore primario e finale: Utente registrato
+
+UC4 – Aggiungi nuova recensione
+L’utente registrato vuole scrivere una recensione su un libro.
+Da elenco o ricerca, clicca su “Dettagli” del libro. Se non ha già recensito, compila titolo, voto (1–5) e testo nel form e invia.
+
+UC5 – Visualizza proprie recensioni
+L’utente registrato vuole consultare le recensioni che ha scritto.
+Clicca su “Le mie recensioni”: visualizza l’elenco con titolo del libro, voto e testo. Può cliccare sul titolo per tornare al dettaglio del libro.
+
+---
+
+CASI D’USO – AMMINISTRATORE
+attore primario e finale: Amministratore
+
+UC1 – Aggiungi nuovo libro
+L’Amministratore vuole inserire un nuovo libro.
+Clicca su “Gestisci Libri” e poi su “Nuovo Libro”: inserisce titolo, anno, carica immagini e associa uno o più autori, quindi salva.
+
+UC2 – Modifica dati libro
+L’Amministratore vuole aggiornare i dati di un libro esistente.
+Da “Gestisci Libri”, cerca o sfoglia per titolo, clicca su “Modifica”: aggiorna titolo, anno, immagini o autori e salva.
+
+UC3 – Elimina recensione
+L’Amministratore vuole rimuovere una recensione creata da un utente.
+Da “Gestisci Libri”, seleziona il libro, visualizza le recensioni e clicca su “Elimina” accanto a quella desiderata, quindi conferma.
